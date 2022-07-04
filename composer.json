@@ -1,0 +1,17 @@
+{
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.8"
+    },
+    "autoload": {
+      "psr-4": {
+        "Mailer\\": "src/"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "tests\\": "tests/"
+      }
+    }
+}
