@@ -64,7 +64,9 @@ class DevelopmentMailer implements MailerInterface
      */
     private function getCcs(array|string $additionalHeaders = []): array
     {
-        $headers = is_string($additionalHeaders) ? explode("\r\n", $additionalHeaders) : $additionalHeaders;
+        $headers = is_string($additionalHeaders)
+            ? explode("\r\n", preg_replace("/\r\n|\r|\n/", "\r\n", $additionalHeaders))
+            : $additionalHeaders;
 
         $mapped = array_map(
             fn ($header) => explode(',', preg_replace('/(Bcc|Cc):\s?/i', '', $header)),
