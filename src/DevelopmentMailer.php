@@ -46,7 +46,13 @@ class DevelopmentMailer implements MailerInterface
     private function canSend(string $email): bool
     {
         // テスト環境で送信してもいいアドレスかチェックする
-        return preg_match('//', $email) === 1 ? true : false;
+        foreach (MailList::ALLOW as $pattern) {
+            if (! preg_match($pattern, $email)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

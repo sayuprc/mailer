@@ -62,30 +62,22 @@ class DevelopmentMailerTest extends TestCase
 
         // Cc
         $params = ['Cc: sayuprc@example.com'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertCount(1, $actual);
 
         // Cc(複数)
         $params = ['Cc: sayuprc@example.com,sayuprc@example.co.jp'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertCount(2, $actual);
 
         // Bcc
         $params = ['Bcc: sayuprc@example.com'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertCount(1, $actual);
 
         // Bcc(複数)
         $params = ['Bcc: sayuprc@example.com,sayuprc@example.co.jp'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertCount(2, $actual);
     }
 
@@ -100,37 +92,57 @@ class DevelopmentMailerTest extends TestCase
 
         // Cc
         $params = ['Cc: sayuprc@example.com'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertTrue($actual);
 
         // Cc(複数)
         $params = ['Cc: sayuprc@example.com,sayuprc@example.co.jp'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertTrue($actual);
 
         // Bcc
         $params = ['Bcc: sayuprc@example.com'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertTrue($actual);
 
         // Bcc(複数)
         $params = ['Bcc: sayuprc@example.com,sayuprc@example.co.jp'];
-
         $actual = $method->invokeArgs($mailer, $params);
-
         $this->assertTrue($actual);
 
         // CcもBccもない
         $params = ['From: sayuprc@example.com'];
-
         $actual = $method->invokeArgs($mailer, $params);
+        $this->assertFalse($actual);
+    }
 
+    /**
+     * 送信可能メールアドレスかをチェックする関数のテスト
+     *
+     * @return void
+     */
+    public function testCanSend(): void
+    {
+        [$mailer, $method] = $this->getNonPublicMethod('canSend');
+
+        // 可能
+        $params = ['Cc: sayuprc@example.com'];
+        $actual = $method->invokeArgs($mailer, $params);
+        $this->assertTrue($actual);
+
+        // 可能(複数)
+        $params = ['Cc: sayuprc@example.com,fuga@example.com'];
+        $actual = $method->invokeArgs($mailer, $params);
+        $this->assertTrue($actual);
+
+        // 不可能
+        $params = ['Bcc: sayuprc@example.co.jp'];
+        $actual = $method->invokeArgs($mailer, $params);
+        $this->assertFalse($actual);
+
+        // 不可能(複数)
+        $params = ['Bcc: sayuprc@example.com,sayuprc@example.co.jp'];
+        $actual = $method->invokeArgs($mailer, $params);
         $this->assertFalse($actual);
     }
 }
